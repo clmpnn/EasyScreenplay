@@ -6,6 +6,25 @@
 <title>EasyScreenplay</title>
 <meta name="description" content="A screenplay page that formats itself, a format doctor, and the short craft guide that gets you from nothing to a finished scene. One file, offline, nothing to install.">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FAF5EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15120E" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="EasyScreenplay">
+<meta name="mobile-web-app-capable" content="yes">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EasyScreenplay">
+<meta property="og:title" content="EasyScreenplay — a screenplay page that formats itself">
+<meta property="og:description" content="Press Write and type: the page puts every line where it belongs. A format doctor, the story tools, fifteen drills and the craft, short. One file, offline, nothing to install.">
+<meta property="og:image" content="assets/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="EasyScreenplay — a page that formats itself. A doctor that reads it. The craft, short.">
+<meta name="twitter:card" content="summary_large_image">
+
 <!-- ─────────────────────────────────────────────────────────────────────────
      EASYSCREENPLAY · one file · no build step at runtime · no network
      Copyright © 2026 Claudia. All rights reserved. Not open source: see the
@@ -7419,6 +7438,11 @@ Z.alignBlocks = function(A, B){
 })();
 
 
+/* offline + installable, but only when this is served from a site: opened
+   from disk there is nothing to register and nothing to cache. */
+if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+  addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
 </script>
 </body>
 </html>

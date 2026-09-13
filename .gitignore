@@ -1,5 +1,9 @@
-# build scratch and local notes
+# Build scratch and local notes.
+# Note: the site's own images are NOT scratch — they must be committed, or the
+# published page loses its icons, its installability and its link preview.
 *.png
+!assets/*.png
+
 *.pdf
 *.log
 __pycache__/
@@ -7,6 +11,7 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# the built file IS committed — it is what you open.
-# Comment the next line out if you would rather build it yourself.
+# The built file IS committed — it is what you open, and what Pages serves.
+# Comment the next two lines out if you would rather build it yourself.
 #index.html
+#sw.js

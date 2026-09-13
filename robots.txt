@@ -1,0 +1,9 @@
+# EasyScreenplay is published so it can be opened, not so it can be indexed.
+# As written, search engines are welcome. Because the repository is all rights
+# reserved and the guide quotes craft books, you may prefer it not to be found:
+# delete the two lines below and uncomment the two under them.
+User-agent: *
+Allow: /
+
+#User-agent: *
+#Disallow: /

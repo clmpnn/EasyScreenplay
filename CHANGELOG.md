@@ -4,6 +4,30 @@
 
 - Added `LICENSE`: all rights reserved, with third-party notices for the
   typefaces, the .fdx and .fountain formats, and the craft references.
+- Ready for GitHub Pages: a build-and-deploy workflow, a service worker that
+  makes the site work offline and installable, a web app manifest with icons,
+  a social card with Open Graph tags, a 404 page, `.nojekyll`, `robots.txt`,
+  theme colours and an SVG favicon. `build.py` now also writes `sw.js`, and
+  takes `--site URL` to emit absolute social-card and canonical URLs — those
+  two only: every icon, script and link in the page stays relative, so the same
+  file works from disk, from a project sub-path and from a custom domain.
+- Added `tools/make_icons.py`: the icon family is now drawn from one described
+  mark rather than committed as six binaries with no origin. `--check` reports
+  any drift between the drawing and what is committed.
+- Fixed: the service worker's cache name hashed only `index.html`, so a changed
+  icon or manifest would have sat behind a cache that still looked current. It
+  now hashes every file the worker precaches.
+- Added `setup-pages.py` and `docs/pages-workflow.yml`: the publish workflow,
+  readable on its own and installed into `.github/workflows/` by one command.
+- Fixed: `.gitignore` excluded `*.png`, so none of the icons or the social card
+  would have been committed — the published site would have had no favicon, no
+  installable manifest and no link preview. Site images are now kept; stray
+  screenshots are still ignored.
+- Added `tests/test_pages.py`: serves the repo under a sub-path the way Pages
+  does, then checks the icons, manifest, service-worker scope, precache, the
+  404 page and the social card — and pulls the network out to prove the app
+  still opens. Eleven checks, green against both the folder on disk and the
+  pruned artifact the workflow uploads.
 
 ## 1.0.0 — 13 September 2026
 
