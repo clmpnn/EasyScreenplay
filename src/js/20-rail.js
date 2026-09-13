@@ -135,7 +135,7 @@
     q.addEventListener('input', runSearch);
     q.addEventListener('keydown', function(e){
       if (e.key === 'Enter' && runSearch._first) { e.preventDefault(); runSearch._first.click(); }
-      if (e.key === 'Escape') { q.value = ''; runSearch(); q.blur(); }
+      if (e.key === 'Escape') { e.stopPropagation(); q.value = ''; runSearch(); q.blur(); }
     });
 
     /* any in-file link opens the folds around its target and reveals a folded part */
@@ -144,6 +144,14 @@
       if (!a) return;
       var id = a.getAttribute('href').slice(1); if (!id) return;
       var tg = document.getElementById(id); if (!tg) return;
+      /* A rule reference from the doctor points into the guide, which the page
+         is sitting on top of — full mode covers the whole viewport. Uncover it:
+         side by side where there is room, and otherwise close the page, which
+         saves on the way out. Without this the link scrolled something the
+         reader could not see. */
+      if (a.dataset && a.dataset.closePage && Z.page && Z.page.isOpen()) {
+        if (window.innerWidth >= 1000) Z.page.mode('dock'); else Z.page.close();
+      }
       Z.emit('reveal', tg);
       var n = tg; while (n) { if (n.tagName === 'DETAILS') n.open = true; n = n.parentElement; }
     });

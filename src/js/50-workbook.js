@@ -23,7 +23,7 @@
       if (inp.dataset.bound) return; inp.dataset.bound = '1';
       var k = 'f:' + inp.dataset.f, v = S.get(k);
       if (inp.type === 'checkbox') inp.checked = v === '1'; else if (v != null) inp.value = v;
-      var save = Z.debounce(function(){ S.set(k, inp.type === 'checkbox' ? (inp.checked ? '1' : '0') : inp.value); Z.emit('field', inp.dataset.f); }, 300, 2500);
+      var save = Z.saveSoon(function(){ S.set(k, inp.type === 'checkbox' ? (inp.checked ? '1' : '0') : inp.value); Z.emit('field', inp.dataset.f); }, 300, 2500);
       inp.addEventListener(inp.type === 'checkbox' ? 'change' : 'input', save);
     });
   }
@@ -85,7 +85,7 @@
       var v = L.get(inp.dataset.lf);
       if (inp.type === 'checkbox') inp.checked = !!v; else inp.value = v == null ? '' : v;
       if (inp.dataset.lbound) return; inp.dataset.lbound = '1';
-      var save = Z.debounce(function(){ L.set(inp.dataset.lf, inp.type === 'checkbox' ? inp.checked : inp.value); Z.emit('ladderfield', inp.dataset.lf); }, 250, 2500);
+      var save = Z.saveSoon(function(){ L.set(inp.dataset.lf, inp.type === 'checkbox' ? inp.checked : inp.value); Z.emit('ladderfield', inp.dataset.lf); }, 250, 2500);
       inp.addEventListener(inp.type === 'checkbox' ? 'change' : 'input', save);
     });
   }
@@ -529,7 +529,7 @@
       else { r.id = Z.uid(); all.unshift(r); if (editing) Z.toast('That read had been deleted — filed this as a new one.'); }
       S.setJSON('reads', all); editing = null;
       Object.keys(inputs).forEach(function(k){ if (k !== 'kind') inputs[k].value = ''; });
-      paint(); Z.toast('Filed. That read counts toward the P1 gate.', {ok: true}); Z.emit('reads');
+      paint(); Z.toast('Filed. Reading produced scripts is the cheapest craft there is.', {ok: true}); Z.emit('reads');
     }}, '⤓ File this read')));
     el.appendChild(box);
     var list = h('div.readlist'); el.appendChild(list);
@@ -537,7 +537,7 @@
       list.innerHTML = '';
       var all = S.getJSON('reads', []);
       var f = all.filter(function(r){ return r.kind === 'feature'; }).length, p = all.filter(function(r){ return r.kind === 'pilot'; }).length;
-      list.appendChild(h('div.wb-k', null, 'Filed reads · features ' + f + '/15 · pilots ' + p + '/5 (the P1 gate)'));
+      list.appendChild(h('div.wb-k', null, 'Filed reads · features ' + f + '/15 · pilots ' + p + '/5'));
       list.appendChild(h('div.meter', null, h('i', {style: 'width:' + Math.min(100, (f + p) / 20 * 100) + '%'})));
       all.forEach(function(r){
         list.appendChild(h('details.readcard', null, h('summary', null, h('b', null, r.script), ' · ' + r.kind + ' · ' + Z.fmtISO(r.d) + (r.log ? ' — ' + r.log.slice(0, 90) : '')),
@@ -594,7 +594,7 @@
         var why = h('input', {type: 'text', value: x.why || '', placeholder: x.v === 'R' ? 'Your reason — one blunt sentence. You\'re allowed to be certain.' : 'How you\'ll fix it (optional)'});
         var done = h('input', {type: 'checkbox', checked: !!x.done, 'aria-label': 'Fixed'});
         sel.addEventListener('change', function(){ var a = all(); a.forEach(function(r){ if (r.id === x.id) r.v = sel.value; }); save(a); paint(); });
-        why.addEventListener('input', Z.debounce(function(){
+        why.addEventListener('input', Z.saveSoon(function(){
           var a = all(), row = null;
           for (var q = 0; q < a.length; q++) if (a[q].id === x.id) row = a[q];
           if (!row) return;            /* the note was deleted while typing */

@@ -126,6 +126,50 @@ async def main():
         await ctx.set_offline(False)
         await pg2.close()
 
+        # ── what a visitor to the published site actually sees ──────────
+        # Arriving at a web address, you do not yet know what this is. The guide
+        # is the answer to that; a blank screenplay page is not. (Opening the
+        # file from your own disk still goes straight to writing — test_app.py
+        # holds that end.)
+        fresh = await b.new_context(viewport={'width': 1280, 'height': 900})
+        fp = await fresh.new_page()
+        await fp.goto(site)
+        await fp.wait_for_timeout(900)
+        land = await fp.evaluate("""({
+          writing: ZTF.page.isOpen(),
+          view: ZTF.store.get('view'),
+          guideVisible: !!document.querySelector('#doc .runhead h1'),
+          cta: (document.querySelector('[data-go="page:first"]') || {}).textContent
+        })""")
+        chk(not land['writing'] and land['guideVisible'],
+            'a first visit to the site lands on the guide', land)
+        chk(land['view'] == 'guide' and 'Write' in (land['cta'] or ''),
+            'and writing is one button away from where it lands', land)
+
+        # come back after writing and you are returned to the paper
+        await fp.evaluate("ZTF.page.open()")
+        await fp.wait_for_timeout(400)
+        await fp.reload()
+        await fp.wait_for_timeout(900)
+        back = await fp.evaluate("({writing: ZTF.page.isOpen(), view: ZTF.store.get('view')})")
+        chk(back['writing'], 'a return visit reopens the surface you left', back)
+        await fresh.close()
+
+        # a shared link to a section must open that section, not the editor
+        deep = await b.new_context(viewport={'width': 1280, 'height': 900})
+        dp = await deep.new_page()
+        await dp.goto(site + '#format')
+        await dp.wait_for_timeout(900)
+        d = await dp.evaluate("""(() => {
+          const t = document.getElementById('format');
+          const r = t ? t.getBoundingClientRect() : null;
+          return {writing: ZTF.page.isOpen(), found: !!t,
+                  near: r ? Math.abs(r.top) < 400 : false};
+        })()""")
+        chk(d['found'] and not d['writing'] and d['near'],
+            'a link to a section opens that section, with nothing on top of it', d)
+        await deep.close()
+
         # a link nobody typed correctly
         r404 = await pg.goto(site + 'does/not/exist')
         body = await pg.inner_text('h1')

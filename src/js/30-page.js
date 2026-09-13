@@ -203,6 +203,11 @@
     document.addEventListener('keydown', function(e){
       if (!openFlag) return;
       if (e.key !== 'Escape') return;
+      /* Docked, the guide is still live beside the paper and has its own uses
+         for Escape. Only answer for keys pressed inside the page itself (or
+         with nothing focused at all). */
+      var t = e.target;
+      if (t && t !== document.body && t !== document.documentElement && !root.contains(t)) return;
       if (!sugEl.hidden) { sugEl.hidden = true; return; }
       if (sidePanel) { toggleSide(sidePanel); return; }   /* panel first, then the page */
       /* Tab belongs to the state machine, so Escape is the way out of the
@@ -314,7 +319,9 @@
 
     /* element shortcuts: Ctrl+1–6 as in Final Draft; Alt+1–6 always works */
     var dg = /^[1-6]$/.test(e.key) ? e.key : ((/^Digit([1-6])$/.exec(e.code || '') || [])[1]);
-    if ((mod || e.altKey) && !e.shiftKey && dg) {
+    var altGr = (e.ctrlKey && e.altKey) ||
+                (e.getModifierState && e.getModifierState('AltGraph'));
+    if ((mod || e.altKey) && !e.shiftKey && !altGr && dg) {
       e.preventDefault(); setType(i, ORDER[+dg - 1], true); return;
     }
     if (mod && !e.shiftKey && (e.key === 'z' || e.key === 'Z')) { e.preventDefault(); doUndo(); return; }
@@ -767,7 +774,7 @@
     box.appendChild(Z.h('button.btn.primary', {type: 'button', onclick: go}, 'Create'));
     box.appendChild(Z.h('button.btn', {type: 'button', onclick: function(){ box.remove(); fillSelect(); }}, 'Cancel'));
     function go(){ var s = create(inp.value.trim() || 'Untitled'); box.remove(); openScript(s.id); }
-    inp.addEventListener('keydown', function(e){ if (e.key === 'Enter') go(); if (e.key === 'Escape') { box.remove(); fillSelect(); } });
+    inp.addEventListener('keydown', function(e){ if (e.key === 'Enter') go(); if (e.key === 'Escape') { e.stopPropagation(); box.remove(); fillSelect(); } });
     var bar = Z.$('.pg-bar', root); bar.after(box); inp.focus();
   }
 
@@ -949,6 +956,7 @@
       return start;
     },
     coach: coach, endCoach: endCoach, compare: compare, refresh: function(){ if (sc) { render(cur); } },
+    mode: function(m){ build(); setMode(m); },
     setCover: function(k, on){ build(); if (covers[k] !== on) toggleCover(k, Z.$('[data-act="cover-' + k + '"]', root)); },
     side: function(which){ build(); if (sidePanel !== which) toggleSide(which); },
     blocks: function(){ return sc ? sc.blocks : []; },

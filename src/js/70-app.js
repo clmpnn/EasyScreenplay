@@ -160,13 +160,30 @@
     }});
   };
 
-  /* ── remember which surface you were on ─────────────────────────── */
+  /* ── where you land ─────────────────────────────────────────────── */
   Z.initApp = function(){
     var first = !S.get('seen');
     S.set('seen', '1');
     Z.on('page:open', function(){ S.set('view', 'write'); });
     Z.on('page:close', function(){ S.set('view', 'guide'); });
-    if (first) { Z.firstPage(); return; }
+
+    /* A link to a section is a request for that section. Never open the
+       writing surface on top of it — it covers the whole viewport. */
+    if (location.hash && document.getElementById(location.hash.slice(1))) {
+      S.set('view', 'guide');
+      return;
+    }
+
+    if (first) {
+      /* Arriving at a web address, you do not yet know what this is: the guide
+         opens, and its first button is "Write my first page". Opening the file
+         from your own disk you came to write, so the coach opens straight away.
+         Either way the other one is a single click, and after this first visit
+         both remember whichever surface you left. */
+      if (Z.onWeb()) { S.set('view', 'guide'); return; }
+      Z.firstPage();
+      return;
+    }
     if (S.get('view') !== 'guide') Z.page.open();
   };
 })();

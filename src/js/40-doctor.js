@@ -4,6 +4,16 @@
    against the pages on the practice page. Every hit names the rule and the
    step it comes from. It flags; you decide — "check" means look, not fix.  */
 (function(){
+  /* A name is bounded by anything that is not a letter or a digit — in any
+     alphabet. \b only knows ASCII, so ÉLODIE could never be found in an action
+     line. Lookbehind is used where the browser has it (everything current), and
+     where it does not we fall back to \b rather than to nothing. */
+  var UNI = (function(){ try { new RegExp('(?<![\\p{L}\\p{N}])x', 'u'); return true; } catch (e) { return false; } })();
+  function nameRe(n, flags){
+    return UNI
+      ? new RegExp('(?<![\\p{L}\\p{N}])' + n + '(?![\\p{L}\\p{N}])', flags + 'u')
+      : new RegExp('\\b' + n + '\\b', flags);
+  }
   var L = function(step, text){ return '<a href="#' + step + '" class="xref" data-close-page="1">' + text + '</a>'; };
   var FUNC = /^(MAN|WOMAN|GUY|GIRL|BOY|KID|LADY|OLD MAN|OLD WOMAN|YOUNG MAN|YOUNG WOMAN|WAITER|WAITRESS|DRIVER|COP|OFFICER|GUARD|NURSE|DOCTOR|CLERK|MANAGER|BOSS|STRANGER|VOICE|CUSTOMER|BARTENDER|RECEPTIONIST|SECRETARY|SOLDIER|TEACHER|STUDENT|PASSENGER|WITNESS|NEIGHBOU?R|DELIVERY GUY|ANGRY WOMAN|ANGRY MAN|SALESMAN|SALESWOMAN|CASHIER|HOST|HOSTESS|REPORTER|ANNOUNCER|OPERATOR|DISPATCHER|WORKER|TECH|PARAMEDIC)( ?#?\d+)?$|#\d+$/;
   var ED_OK = /^(need|feed|seed|speed|bleed|breed|proceed|exceed|succeed|red|bed|shed|wed|embed|shred|sled|steed|creed|deed|heed|weed|reed|tweed|naked|wicked|sacred|hundred|crooked|rugged|ragged|beloved|aged|blessed|ted|fred|ned|jared|ahmed|mohammed|muhammad)$/i;
@@ -42,11 +52,11 @@
 
   /* rule table: id, sev, cat, mistake (the twelve mistakes #), title, why */
   var R = {
-    wall:     ['fix',   'action',   1,  'Wall of gray — an action block over 4 lines', 'One beat per paragraph, ≤4 lines. White space is pacing. (' + L('s18', 'mistake #1') + ')'],
-    wesee:    ['fix',   'action',   2,  '"We see / we hear"', 'Delete the instruction and show the thing: not "We see Marcus walk" but "Marcus walks." (' + L('s18', 'mistake #2') + ')'],
-    camera:   ['fix',   'action',   2,  'Camera direction', 'Omit from a spec — the director picks the shots. Imply the angle through what the action looks at. (' + L('s12', 'the rulebook') + ')'],
+    wall:     ['fix',   'action',   1,  'Wall of gray — an action block over 4 lines', 'One beat per paragraph, ≤4 lines. White space is pacing. (' + L('mistakes', 'mistake #1') + ')'],
+    wesee:    ['fix',   'action',   2,  '"We see / we hear"', 'Delete the instruction and show the thing: not "We see Marcus walk" but "Marcus walks." (' + L('mistakes', 'mistake #2') + ')'],
+    camera:   ['fix',   'action',   2,  'Camera direction', 'Omit from a spec — the director picks the shots. Imply the angle through what the action looks at. (' + L('b1-writing-rules', 'the rulebook') + ')'],
     camsoft:  ['check', 'action',   0,  'POV / INSERT', 'Legitimate in special situations (' + L('b2-special-situations--the-lookup-shelf', 'the lookup shelf') + ') — make sure you need it.'],
-    inner:    ['check', 'action',   3,  'Inner state — could a camera film it?', 'The camera test: replace the feeling with behavior. "She is furious" → "She closes the folder. Doesn\'t look at him." (' + L('s4', 'the page in six shapes') + ', ' + L('s18', 'mistake #3') + ')'],
+    inner:    ['check', 'action',   3,  'Inner state — could a camera film it?', 'The camera test: replace the feeling with behavior. "She is furious" → "She closes the folder. Doesn\'t look at him." (' + L('six-shapes', 'the page in six shapes') + ', ' + L('mistakes', 'mistake #3') + ')'],
     past:     ['check', 'action',   0,  'Possible past tense', 'Action is always present tense: "Will steps", never "Will stepped". Riley\'s clearest tip-off that a writer is new. (' + L('b7-the-twelve-deadly-mistakes--rileys-list-in-full', 'Riley #12') + ')'],
     instr:    ['check', 'action',   0,  '"begins to / starts to"', 'The instruction cut: she does not begin to open the door. She opens the door. (' + L('c6-compression--the-single-most-transferable-skill', 'Compression') + ')'],
     adverb:   ['info',  'action',   0,  'Adverbs in action', '"Walks quickly" is "hurries". The adverb is usually there because the verb is weak. (' + L('c6-compression--the-single-most-transferable-skill', 'Compression') + ')'],
@@ -56,14 +66,14 @@
     capsagain:['info',  'format',   0,  'Name in CAPS again after the intro', 'Only the first appearance is capitalised. After that, normal case.'],
     nose:     ['check', 'dialogue', 4,  'On-the-nose line', 'A character is saying exactly what they feel. Subtext swap: what would they say instead of what they mean? (' + L('c2-the-five-subtext-moves', 'the five subtext moves') + ')'],
     expo:     ['check', 'dialogue', 4,  'Search-and-destroy phrase', 'Usually a confession that you didn\'t know how else to get the fact in. Turn the fact into ammunition. (' + L('a5-exposition--the-hardest-invisible-skill', 'Exposition') + ')'],
-    speech:   ['check', 'dialogue', 0,  'Speech over 4 lines', 'Speeches rarely run over 4 lines. Cut the first line on suspicion — it\'s usually throat-clearing. (' + L('s13', 'dialogue and subtext') + ')'],
-    hello:    ['check', 'dialogue', 6,  'Scene opens on a greeting', 'Late-arriving scene: cut to the first line of the real negotiation. (' + L('s18', 'mistake #6') + ')'],
-    bye:      ['check', 'dialogue', 7,  'Scene ends on a goodbye', 'Overstayed ending: end on the last line where something changed. (' + L('s18', 'mistake #7') + ')'],
-    func:     ['info',  'format',   10, 'Functional name', 'Fine for a one-line bit part. A character with real lines deserves a name. (' + L('s18', 'mistake #10') + ')'],
+    speech:   ['check', 'dialogue', 0,  'Speech over 4 lines', 'Speeches rarely run over 4 lines. Cut the first line on suspicion — it\'s usually throat-clearing. (' + L('words', 'dialogue and subtext') + ')'],
+    hello:    ['check', 'dialogue', 6,  'Scene opens on a greeting', 'Late-arriving scene: cut to the first line of the real negotiation. (' + L('mistakes', 'mistake #6') + ')'],
+    bye:      ['check', 'dialogue', 7,  'Scene ends on a goodbye', 'Overstayed ending: end on the last line where something changed. (' + L('mistakes', 'mistake #7') + ')'],
+    func:     ['info',  'format',   10, 'Functional name', 'Fine for a one-line bit part. A character with real lines deserves a name. (' + L('mistakes', 'mistake #10') + ')'],
     oswrong:  ['check', 'format',   11, '(O.S.) on a phone, TV or recording?', 'O.S. is only for someone physically in the scene but out of frame. Phones, TVs, radios, voicemail, narrators: V.O. (' + L('b1-writing-rules', 'the rulebook') + ')'],
-    names:    ['fix',   'format',   12, 'Inconsistent character name', 'The same person spelled two ways reads as two people. Pick one. (' + L('s18', 'mistake #12') + ')'],
-    contd:    ['fix',   'format',   12, 'Typed (MORE) / (CONT\'D)', 'Never type them — the software adds them at page breaks. Delete. (' + L('s18', 'mistake #12') + ')'],
-    blank:    ['fix',   'format',   12, 'Blank line typed by hand', 'The page spaces itself. Delete empty lines. (' + L('s18', 'mistake #12') + ')'],
+    names:    ['fix',   'format',   12, 'Inconsistent character name', 'The same person spelled two ways reads as two people. Pick one. (' + L('mistakes', 'mistake #12') + ')'],
+    contd:    ['fix',   'format',   12, 'Typed (MORE) / (CONT\'D)', 'Never type them — the software adds them at page breaks. Delete. (' + L('mistakes', 'mistake #12') + ')'],
+    blank:    ['fix',   'format',   12, 'Blank line typed by hand', 'The page spaces itself. Delete empty lines. (' + L('mistakes', 'mistake #12') + ')'],
     emoji:    ['fix',   'format',   0,  'Emoji in script text', 'Personal flags only — never in submission text. Put it in a note (Alt+J) instead.'],
     slugform: ['fix',   'format',   0,  'Scene heading shape', 'INT. or EXT. + PLACE + - TIME, all caps: INT. LAUNDROMAT - DAY. (' + L('b1b-scene-headings--the-three-rules-and-the-five-parts', 'the rulebook — scene headings') + ')'],
     slugtime: ['check', 'format',   0,  'Scene heading has no time of day', 'Master headings always end with the time: - DAY / - NIGHT do 95% of the work. (' + L('b1b-scene-headings--the-three-rules-and-the-five-parts', 'the rulebook') + ')'],
@@ -186,20 +196,34 @@
       var Ac = A.replace(/[^A-Z]/g, ''), Bc = B.replace(/[^A-Z]/g, '');
       /* two names with no A–Z letters at all both reduce to "" — that is not
          the same character, it is a name this rule cannot read. */
-      if (Math.min(A.length, B.length) >= 3 && (lev(A, B) === 1 || (Ac && Ac === Bc))) {
-        out.push({rule: 'names', sev: 'fix', cat: 'format', m: 12, title: R.names[3] + ': ' + A + ' / ' + B, why: R.names[4], i: cueFirst[B], pos: 0, snip: A + ' vs ' + B});
+      /* Two names one character apart are usually a typo — but not when the
+         character is a digit (COP 1 and COP 2 are two people), and not when
+         both are functional names, which the rule above already reports. */
+      var numbered = A.replace(/\d+/g, '#') === B.replace(/\d+/g, '#');
+      var funcPair = FUNC.test(A) && FUNC.test(B);
+      if (!numbered && !funcPair && Math.min(A.length, B.length) >= 3) {
+        if (Ac && Ac === Bc) {
+          /* the same letters, differently punctuated or spaced — MARY-JANE and
+             MARY JANE really are one character typed two ways */
+          out.push({rule: 'names', sev: 'fix', cat: 'format', m: 12, title: R.names[3] + ': ' + A + ' / ' + B, why: R.names[4], i: cueFirst[B], pos: 0, snip: A + ' vs ' + B});
+        } else if (lev(A, B) === 1) {
+          /* one character apart is a suspicion, not a finding: JIM and TIM are
+             two people. Worth a look — but it must not hold a clean scene
+             below twelve for ever, so it carries no mistake number. */
+          out.push({rule: 'names', sev: 'check', cat: 'format', m: 0, title: R.names[3] + '?: ' + A + ' / ' + B, why: R.names[4], i: cueFirst[B], pos: 0, snip: A + ' vs ' + B});
+        }
       }
     }
     names.forEach(function(n){
       if (FUNC.test(n)) return;
-      var first = cueFirst[n], re = new RegExp('\\b' + escRe(n).replace(/\\ /g, '\\s+') + '\\b', 'i'), found = -1, foundTxt = '';
+      var first = cueFirst[n], re = nameRe(escRe(n).replace(/ /g, '\\s+'), 'i'), found = -1, foundTxt = '';
       for (var j = 0; j < first; j++) if (blocks[j].t === 'action') { var mm = blocks[j].x.match(re); if (mm) { found = j; foundTxt = mm[0]; break; } }
       if (found < 0) { if (!cueExt[n]) out.push({rule: 'nointro', sev: 'info', cat: 'format', m: 0, title: R.nointro[3] + ': ' + n, why: R.nointro[4], i: first, pos: 0, snip: n}); return; }
       if (foundTxt !== foundTxt.toUpperCase()) out.push({rule: 'introcaps', sev: 'check', cat: 'format', m: 0, title: R.introcaps[3] + ': ' + n, why: R.introcaps[4], i: found, pos: 0, snip: snip(blocks[found].x, re)});
       var again = 0;
       for (j = found + 1; j < blocks.length && again < 2; j++) if (blocks[j].t === 'action') {
-        var m3 = blocks[j].x.match(new RegExp('\\b' + escRe(n) + '\\b'));
-        if (m3 && n.length > 2) { out.push({rule: 'capsagain', sev: 'info', cat: 'format', m: 0, title: R.capsagain[3] + ': ' + n, why: R.capsagain[4], i: j, pos: 0, snip: snip(blocks[j].x, new RegExp('\\b' + escRe(n) + '\\b'))}); again++; }
+        var m3 = blocks[j].x.match(nameRe(escRe(n), ''));
+        if (m3 && n.length > 2) { out.push({rule: 'capsagain', sev: 'info', cat: 'format', m: 0, title: R.capsagain[3] + ': ' + n, why: R.capsagain[4], i: j, pos: 0, snip: snip(blocks[j].x, nameRe(escRe(n), ''))}); again++; }
       }
     });
 

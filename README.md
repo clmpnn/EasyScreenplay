@@ -74,6 +74,11 @@ already a repo, already pushed to **github.com/clmpnn/easysp**, so three short s
    drops `src/`, `tests/`, `tools/`, `build.py` and the workflow from the published copy, and
    deploys. Your site will be **https://clmpnn.github.io/easysp/**.
 
+A visitor who lands on that address gets the guide, with **▶ Write my first page** as its first
+button. The copy you open from your own disk still goes straight into the first-page coach — you
+came to write, they came to find out what this is. After the first visit, both reopen whichever
+surface you left, and a link to a section (`…/#format`) always lands on that section.
+
 Nothing in the page assumes that address. Every icon, script and link it fetches is relative, so
 the same file works opened from disk, served from `/easysp/`, and served from a custom domain,
 with no rebuild. Only two URLs are made absolute at deploy time — the social card and the

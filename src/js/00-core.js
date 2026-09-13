@@ -60,10 +60,28 @@ Z.debounce = function(fn, ms, maxMs){
   d.pending = function(){ return !!args; };
   return d;
 };
+/* A debounced write that must survive the tab closing. The screenplay page has
+   always flushed its own on the way out; every other field relied on the timer
+   alone, so the last couple of seconds of typing — a whole logline, a beat —
+   could die with the tab. Register the write here and it is flushed first. */
+(function(){
+  var queued = [];
+  Z.saveSoon = function(fn, ms, maxMs){ var d = Z.debounce(fn, ms, maxMs); queued.push(d); return d; };
+  Z.flushSaves = function(){ queued.forEach(function(d){ try { d.flush(); } catch (e) {} }); };
+  addEventListener('pagehide', Z.flushSaves);
+  addEventListener('beforeunload', Z.flushSaves);
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'hidden') Z.flushSaves();
+  });
+})();
 Z.uid = function(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); };
 Z.clamp = function(v, a, b){ return Math.max(a, Math.min(b, v)); };
 Z.words = function(s){ var m = String(s || '').trim().match(/[\w'’-]+/g); return m ? m.length : 0; };
 Z.plural = function(n, one, many){ return n + ' ' + (n === 1 ? one : (many || one + 's')); };
+/* Served from a web address, or opened as a file from your own disk? The two
+   have different first-time visitors — a stranger deciding what this is, and
+   you, sitting down to write — so a few things answer to this. */
+Z.onWeb = function(){ return location.protocol === 'http:' || location.protocol === 'https:'; };
 
 /* ── dates: local calendar days as ISO strings; UTC ms for arithmetic ── */
 Z.DAY = 86400000;
@@ -173,6 +191,11 @@ Z.ago = function(iso){
     },
     setSaving: function(on){
       if (on) {
+        /* mem still holds save:'0' from the time it was switched off. Writing
+           the whole of mem back would put that '0' straight over the '1' and
+           leave saving off while the toast said it was on — and because the
+           flag stayed in mem, every later attempt did the same. */
+        delete mem.save;
         rawSet(P + 'save', '1');
         Object.keys(mem).forEach(function(k){ rawSet(P + k, mem[k]); });
       } else {

@@ -182,7 +182,7 @@
 {{js}}
 /* offline + installable, but only when this is served from a site: opened
    from disk there is nothing to register and nothing to cache. */
-if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+if ('serviceWorker' in navigator && Z.onWeb()) {
   addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
 }
 </script>

@@ -455,7 +455,7 @@
       var key = 'rw:' + kind + ':' + idx;
       var ta = h('textarea.rw', {rows: kind === 'compress' ? 4 : 6, placeholder: kind === 'compress' ? 'Your version of the action paragraph…' : 'SARA: …\nLEO: …'});
       ta.value = Z.store.get(key) || '';
-      ta.addEventListener('input', Z.debounce(function(){ Z.store.set(key, ta.value); }, 400, 2000));
+      ta.addEventListener('input', Z.saveSoon(function(){ Z.store.set(key, ta.value); }, 400, 2000));
       var meter = h('div.rw-meter'); body.appendChild(ta); body.appendChild(meter);
       var out = h('div.rw-out'); body.appendChild(out);
       function measure(){

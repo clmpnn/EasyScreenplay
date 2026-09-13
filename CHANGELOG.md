@@ -2,6 +2,52 @@
 
 ## Unreleased
 
+- **The published site now lands on the guide.** Arriving at a web address you
+  do not yet know what this is, so the guide opens and its first button is
+  "Write my first page"; opening the file from your own disk still goes straight
+  to the first-page coach, because you came to write. After the first visit both
+  remember whichever surface you left.
+- Fixed: a link to a section (`…/#format`) opened the writing surface on top of
+  the thing it linked to — which covers the whole viewport, so the page scrolled
+  somewhere invisible. A deep link now always lands on its section.
+- Fixed: **23 links in the guide went nowhere.** Eleven were sections cut with
+  the funding campaign (the 30-day map, the daily loop, the glossary, the HUD
+  card, the contest-target tables) and twelve were the format doctor's rule
+  references, still pointing at ids from the file this was lifted out of. Every
+  link now resolves, and `tests/test_app.py` checks it so this cannot come back.
+- Fixed: turning auto-save off and on again left it off, while the toast said it
+  was on — and it stayed stuck until a reload, because the in-memory flag was
+  written back over the one that had just been set. Everything typed after that
+  lived only until the tab closed.
+- Fixed: Escape closed the writing page from anywhere in the document, so
+  clearing the guide's search box or cancelling the "new script" prompt also
+  shut the page you were writing on.
+- Fixed: the doctor's rule references now uncover the guide before scrolling to
+  it — side by side where there is room, otherwise closing the page (which
+  saves). They previously scrolled a guide the reader could not see.
+- Fixed: "COP 1 / COP 2" was reported as one character misspelt, which also made
+  a legitimate scene unable to reach a clean twelve. Numbered and functional
+  names are exempt, and a one-character difference (JIM / TIM) is now a "look at
+  this" rather than a "fix this"; the same name typed two ways (MARY JANE /
+  MARY-JANE) is still a hard fix.
+- Fixed: a character name with an accent could never be found in an action line
+  (`\b` only knows ASCII), so ÉLODIE got a permanent "speaks before we meet
+  them" and her capitalisation was never checked at all.
+- Fixed: on Windows layouts where AltGr reports as Ctrl+Alt, AltGr+2 and AltGr+3
+  silently changed the element instead of typing @ or #.
+- Fixed: only the screenplay page flushed its pending write when the tab closed.
+  Every story-tool field, ledger note and drill answer relied on the timer, so
+  up to ~2.5s of typing — a whole logline — could die with the tab.
+- Removed the last five traces of the campaign elsewhere: the "P1 gate" and
+  "P3 gate" labels on the reading log and the beat meter, a registration fee
+  quoted in dollars beside a pointer to a section that no longer exists, and a
+  "live through August 2026" claim about a blog — a currency claim with a date
+  in it is stale the moment it is written.
+- The readers section lost the last of the funding campaign: gate dates, service
+  fees, contest portal mechanics and 2026–27 deadlines. What it kept is the
+  craft — how to find readers who read you twice, what to ask, and the table
+  read. No fee is quoted anywhere, because they change every year.
+
 - Added `LICENSE`: all rights reserved, with third-party notices for the
   typefaces, the .fdx and .fountain formats, and the craft references.
 - Ready for GitHub Pages: a build-and-deploy workflow, a service worker that

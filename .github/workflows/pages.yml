@@ -1,0 +1,60 @@
+name: Publish to GitHub Pages
+
+# Builds index.html from src/ and publishes the folder. Pushing to main is all
+# it takes; nothing here touches your working copy.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# one deploy at a time; a newer push waits rather than racing
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Check the committed index.html matches src/
+        run: |
+          cp index.html /tmp/committed.html
+          python3 build.py
+          if ! diff -q /tmp/committed.html index.html > /dev/null; then
+            echo "::warning::index.html was out of date with src/ — the deployed site uses the freshly built one."
+          fi
+
+      - uses: actions/configure-pages@v5
+        id: pages
+
+      - name: Build with absolute social-card and canonical URLs
+        run: python3 build.py --site "${{ steps.pages.outputs.base_url }}"
+
+      - name: Keep the build machinery out of the published site
+        run: rm -rf tools tests .github src build.py init-repo.cmd init-repo.sh
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

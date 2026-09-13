@@ -231,6 +231,76 @@ async def main():
         chk(not over, 'the guide prints inside the paper', over)
         await ctx.close()
 
+        # ── every internal link has somewhere to go ──────────────────────
+        # Sections were cut when this tool was lifted out of a larger file, and
+        # twelve of the doctor's rule references went on pointing at ids that no
+        # longer existed. A link that silently does nothing is invisible without
+        # this check, so it is a check.
+        ctx, pg, errs = await page(b)
+        dead = await pg.evaluate("""(() => {
+          const have = new Set([...document.querySelectorAll('[id]')].map(e => e.id));
+          const bad = [];
+          document.querySelectorAll('a[href^="#"]').forEach(a => {
+            const id = a.getAttribute('href').slice(1);
+            if (id && !have.has(id)) bad.push(a.getAttribute('href') + ' (' + a.textContent.trim().slice(0, 24) + ')');
+          });
+          return [...new Set(bad)];
+        })()""")
+        chk(not dead, 'every link in the guide resolves', dead[:5])
+
+        # the doctor writes its own links at runtime, so check its table too
+        dead_js = await pg.evaluate("""(() => {
+          const have = new Set([...document.querySelectorAll('[id]')].map(e => e.id));
+          const src = [...document.querySelectorAll('script')].map(s => s.textContent).join('\\n');
+          const out = [];
+          for (const m of src.matchAll(/L\\('([a-z0-9-]+)'/g)) if (!have.has(m[1])) out.push(m[1]);
+          return [...new Set(out)];
+        })()""")
+        chk(not dead_js, 'every rule reference the doctor writes resolves', dead_js[:5])
+        await ctx.close()
+
+        # ── turning saving off and back on actually turns it back on ─────
+        ctx, pg, errs = await page(b)
+        cycle = await pg.evaluate("""(() => {
+          const S = ZTF.store;
+          S.set('probe-a', 'one');
+          S.setSaving(false);
+          // sample the off state now — not after it has been switched back on
+          const offDisk = localStorage.getItem('ztf-probe-a'), offFlag = S.saving();
+          S.setSaving(true);
+          S.set('probe-b', 'two');
+          return {off: offFlag === false && offDisk === null,
+                  backOn: S.saving() === true,
+                  writes: localStorage.getItem('ztf-probe-b') === 'two',
+                  kept: S.get('probe-a') === 'one'};
+        })()""")
+        chk(cycle['off'], 'saving off clears the disk copy but keeps the work', cycle)
+        chk(cycle['backOn'] and cycle['writes'], 'saving on again really writes again', cycle)
+        chk(cycle['kept'], 'nothing typed is lost across the round trip', cycle)
+        await ctx.close()
+
+        # ── Escape belongs to whatever you are actually in ───────────────
+        ctx, pg, errs = await page(b)
+        esc = await pg.evaluate("""(async () => {
+          ZTF.page.open();
+          await new Promise(r => setTimeout(r, 250));
+          const wasOpen = ZTF.page.isOpen();
+          const q = document.getElementById('q');
+          q.focus(); q.value = 'slug';
+          q.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape', bubbles: true}));
+          await new Promise(r => setTimeout(r, 120));
+          return {wasOpen: wasOpen, searchCleared: q.value === '', stillOpen: ZTF.page.isOpen()};
+        })()""")
+        chk(esc['wasOpen'] and esc['searchCleared'] and esc['stillOpen'],
+            'Escape in the guide search clears the search, not your page', esc)
+        await ctx.close()
+
+        # ── the local file still opens straight into writing ─────────────
+        ctx, pg, errs = await page(b)
+        landed = await pg.evaluate("({open: ZTF.page.isOpen(), view: ZTF.store.get('view')})")
+        chk(landed['open'], 'opened from disk, a first visit goes straight to the page', landed)
+        await ctx.close()
+
         await b.close()
 
 asyncio.run(main())

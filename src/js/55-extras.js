@@ -47,7 +47,7 @@
     var meter = h('p.wf-h'); box.appendChild(meter);
     el.appendChild(box);
     Z.bindLadder(box);
-    function paint(){ var d = (Z.ladder.data().beats) || {}, n = BEATS.filter(function(b){ return (d[b[0]] || '').trim(); }).length; meter.textContent = n + ' / 15 beats — the P3 gate wants 15/15, then a treatment a partner can retell.'; }
+    function paint(){ var d = (Z.ladder.data().beats) || {}, n = BEATS.filter(function(b){ return (d[b[0]] || '').trim(); }).length; meter.textContent = n + ' / 15 beats — all fifteen, then a treatment a partner can retell it from.'; }
     paint(); box.addEventListener('input', Z.debounce(paint, 400));
   };
 
