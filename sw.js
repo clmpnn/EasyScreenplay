@@ -3,7 +3,7 @@
    installable. VERSION is written by build.py from a hash of index.html, so a
    rebuild invalidates the old cache and nothing else does.
    Does nothing at all when the file is opened from disk (file://). */
-var VERSION = 'd6bad4f39fc0';
+var VERSION = 'd0e3732cd261';
 var CACHE = 'easyscreenplay-' + VERSION;
 var SHELL = [
   './',

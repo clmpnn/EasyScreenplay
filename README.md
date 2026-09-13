@@ -137,9 +137,12 @@ deploy. It also switches the network off mid-run to prove the service worker hol
 
 `assets/` is drawn, not collected. `python3 tools/make_icons.py` regenerates the favicon and the
 three PNG icons from one description of the mark at the top of that file — the palette is the
-app's own, so changing a colour there and in `src/css` keeps them in step. `--check` tells you
-whether what is committed still matches the drawing without writing anything. The social card is
-the exception: it sets type in four faces, so it is kept as a finished file rather than rebuilt.
+app's own, so changing a colour there and in `src/css` keeps them in step. It imports nothing but
+the standard library and takes about a tenth of a second, so it is also the way to get icons that
+have never left this machine: a file that crosses a network can arrive carrying provenance
+metadata it did not start with, and a regenerated one cannot. `--check` compares what is
+committed against the drawing and is the only part that wants Pillow. The social card is the
+exception: it sets type in four faces, so it is kept as a finished file rather than rebuilt.
 
 ## Editing the guide
 

@@ -12,8 +12,13 @@
   two only: every icon, script and link in the page stays relative, so the same
   file works from disk, from a project sub-path and from a custom domain.
 - Added `tools/make_icons.py`: the icon family is now drawn from one described
-  mark rather than committed as six binaries with no origin. `--check` reports
-  any drift between the drawing and what is committed.
+  mark rather than committed as binaries with no origin. Every shape is an
+  axis-aligned rectangle, so each pixel is the exact area the rectangles cover
+  in it — computed, not sampled. That needs no image library (the standard
+  library only), renders in about 0.1s, drops the icons to a third of their
+  size, and is visibly sharper at 32px than the supersampled render it replaces,
+  which haloed the page edge. `--check` reports drift and is the only part that
+  wants Pillow.
 - Fixed: the service worker's cache name hashed only `index.html`, so a changed
   icon or manifest would have sat behind a cache that still looked current. It
   now hashes every file the worker precaches.
