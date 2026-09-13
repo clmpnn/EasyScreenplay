@@ -1,5 +1,7 @@
 # EasyScreenplay
 
+						https://clmpnn.github.io/EasyScreenplay/
+
 A screenplay page that formats itself, a format doctor that reads what you wrote,
 and a short craft guide — in **one HTML file** that works offline, with nothing installed.
 
