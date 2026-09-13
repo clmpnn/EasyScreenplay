@@ -1,0 +1,51 @@
+EasyScreenplay
+Copyright © 2026 Claudia. All rights reserved.
+
+This is a personal project. It is published under no open-source licence, and
+none is implied by the source being readable.
+
+No permission is granted to any person to copy, modify, merge, publish,
+distribute, sublicense, sell, or create derivative works from this software or
+its written material, in whole or in part, without the prior written permission
+of the copyright holder.
+
+You may, of course, use it yourself: run it, change your own copy, and keep
+what you write in it. Everything you write with this program is yours alone —
+the program claims nothing over it, sends nothing anywhere, and stores nothing
+outside your own browser.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Keeping it closed now does not close it forever: the copyright holder can
+release any version under an open licence at any time. The reverse is not
+true, which is why it starts here.
+
+
+THIRD-PARTY NOTICES
+
+Typefaces. The four faces the page asks for — Zilla Slab, Source Sans 3,
+IBM Plex Mono and Courier Prime — are open-licensed (SIL Open Font License)
+and are loaded from Google Fonts at runtime. None of them is bundled in this
+repository, and deleting the three <link> tags in src/shell.html leaves the
+program working on the fallback stacks with no external requests at all.
+
+Final Draft. "Final Draft" is a trademark of Final Draft, Inc. This project is
+not affiliated with, endorsed by, or derived from Final Draft; it reads and
+writes the .fdx file format and refers to the program's keyboard behaviour for
+compatibility.
+
+Fountain. The .fountain syntax is a public plain-text screenplay format
+(fountain.io), implemented here independently.
+
+The craft material. The guide paraphrases, summarises and occasionally quotes
+standard screenwriting references — Syd Field, Blake Snyder, Robert McKee,
+Lajos Egri, John Yorke, John Truby, Christopher Riley and others — with each
+source named where its idea is used, as a set of working notes does. Those
+authors retain all rights in their own work. Redistributing this guide would
+put that material in front of people who have not bought those books, which is
+a further reason this repository is not open.

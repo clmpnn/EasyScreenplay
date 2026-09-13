@@ -85,11 +85,23 @@ Each section is one file in `src/guide/`, named `<group>-<slug>.html`, and its `
 that the contents and every in-file link use. Add one by dropping in a file and adding its name
 to `GROUPS` in `build.py`.
 
+## Licence
+
+**Copyright © 2026 Claudia. All rights reserved.** See [LICENSE](LICENSE).
+
+This is a personal project, not an open-source one: the source is readable, but no permission
+to copy, modify or redistribute it is granted. Everything you *write* with it is yours alone —
+the program claims nothing over your scripts, sends nothing anywhere, and stores nothing outside
+your own browser.
+
+Closed now is not closed forever: any version can be released under an open licence later. The
+other direction does not work, which is why it starts here.
+
 ## Credits and provenance
 
 The craft material was written for a personal screenwriting plan and extracted from it by
 `tools/extract_guide.py`; it paraphrases and cites standard references (Field, Snyder, McKee,
-Egri, Yorke, Truby, Riley) the way a set of notes does. Final Draft is a trademark of Final
-Draft, Inc.; this project is not affiliated with it and only reads and writes its file format.
-
-Personal project — no licence granted, all rights reserved.
+Egri, Yorke, Truby, Riley) the way a set of working notes does — those authors retain all rights
+in their own work. Final Draft is a trademark of Final Draft, Inc.; this project is not
+affiliated with it and only reads and writes its file format. The four typefaces are
+open-licensed and loaded from Google Fonts at runtime; none is bundled here.

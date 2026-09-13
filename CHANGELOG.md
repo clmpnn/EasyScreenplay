@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Added `LICENSE`: all rights reserved, with third-party notices for the
+  typefaces, the .fdx and .fountain formats, and the craft references.
+
 ## 1.0.0 — 13 September 2026
 
 First release. EasyScreenplay is the writing half of a larger personal
