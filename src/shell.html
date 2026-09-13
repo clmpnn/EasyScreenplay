@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EasyScreenplay</title>
+<meta name="description" content="A screenplay page that formats itself, a format doctor, and the short craft guide that gets you from nothing to a finished scene. One file, offline, nothing to install.">
+<meta name="color-scheme" content="light dark">
+<!-- ─────────────────────────────────────────────────────────────────────────
+     EASYSCREENPLAY · one file · no build step at runtime · no network
+     Open index.html in any browser and write. Everything you type is saved in
+     that browser and nothing is ever sent anywhere.
+     Source lives in src/ and is assembled by build.py — edit there, not here.
+     The three <link> tags below load four faces from Google Fonts. Delete them
+     for a file with zero external requests; every face has a real fallback.
+     ───────────────────────────────────────────────────────────────────────── -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Courier+Prime:wght@400&display=swap" rel="stylesheet">
+<style>
+{{css}}
+</style>
+</head>
+<body>
+<a class="skip" href="#doc">Skip to the guide</a>
+<button class="railbtn" id="railbtn" aria-label="Open contents" aria-expanded="false">☰ Contents</button>
+<div class="scrim" id="scrim"></div>
+<button class="totop" id="totop" aria-label="Back to the top" title="Back to the top">↑</button>
+<div class="shell">
+
+<aside class="rail" id="rail">
+  <div class="rail-head">
+    <p class="brand">Easy<em>Screenplay</em></p>
+    <div class="brand-sub">write · story · craft</div>
+  </div>
+
+  <div class="rail-acts">
+    <button type="button" class="btn primary" id="railPage" data-go="page" title="Open the screenplay page">✎ Write</button>
+  </div>
+
+  <div class="rail-tools">
+    <div class="srch">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <input id="q" type="search" placeholder="Search everything  ( / )" aria-label="Search the guide">
+    </div>
+  </div>
+
+  <nav class="toc" id="toc" aria-label="Contents"></nav>
+
+  <div class="rail-foot">
+    <span class="prog" id="prog" aria-live="polite"></span>
+    <button id="widthBtn" aria-pressed="false" title="Full screen, or a narrower column">⇔ width</button>
+    <button id="themeBtn" aria-label="Toggle colour theme">◐ theme</button>
+  </div>
+</aside>
+
+<main>
+<article class="doc" id="doc">
+
+<div class="runhead" id="top">
+  <h1>Easy<em>Screenplay</em></h1>
+  <div class="sub">A page that formats itself · a doctor that reads it · the craft, short</div>
+  <p class="stand">Press <strong>Write</strong> and type. The page puts every line where it belongs —
+  you only press <kbd>Enter</kbd> and <kbd>Tab</kbd>. When you have a scene, the doctor reads it against
+  the rules a reader notices first, and you can take it out as a PDF, a Final Draft file or plain text.</p>
+  <div class="hero-act">
+    <button type="button" class="btn primary big" data-go="page:first">▶ Write my first page</button>
+    <button type="button" class="btn big" data-go="page">✎ Open the page</button>
+    <a class="btn big" href="#catch">✦ I need an idea first</a>
+  </div>
+  <div class="runline"><b>The whole thing in one line</b>
+  <code class="long">IDEA → TEST → LOGLINE → PEOPLE → SHAPE → CARDS → PAGES → REST → REWRITE → NOTES → DONE</code></div>
+</div>
+
+<section class="part" id="start">
+  <header class="part-head">
+    <div class="part-kick"><span>Start here</span><i>twenty-five minutes</i></div>
+    <h1>Tonight, a page exists</h1>
+    <div class="part-lead"><p>Four short things. At the end of them you will have written a real
+    screenplay page, learned the entire visual vocabulary of the form, and made it impossible to lose.
+    <strong>Anything past that tonight is showing off.</strong></p></div>
+  </header>
+{{start}}
+</section>
+
+<section class="part" id="story">
+  <header class="part-head">
+    <div class="part-kick"><span>The story</span><i>before you write</i></div>
+    <h1>Idea in, pages out</h1>
+    <div class="part-lead"><p>Six fields, in order, each one feeding the next. You can write without
+    them — but a scene you have carded takes a third of the time and comes out twice as good.
+    Everything you type here is kept with the idea it belongs to.</p></div>
+  </header>
+{{story}}
+</section>
+
+<section class="part" id="craft">
+  <header class="part-head">
+    <div class="part-kick"><span>The craft</span><i>the whole reference</i></div>
+    <h1>How a screenplay actually works</h1>
+    <div class="part-lead"><p>The rules that decide whether a page reads as professional, the words
+    that make dialogue live, and what to do after the draft exists. Search it rather than reading it
+    end to end — it is a reference, not a course.</p></div>
+  </header>
+{{craft}}
+</section>
+
+<section class="part" id="drills">
+  <header class="part-head">
+    <div class="part-kick"><span>The drills</span><i>ten minutes each</i></div>
+    <h1>Practice, scored</h1>
+    <div class="part-lead"><p>Reading about format teaches you to recognise it; these teach your hands
+    to do it. Each one keeps your best score and tells you what you got wrong, immediately.</p></div>
+  </header>
+
+  <section class="sec" id="drill-index">
+    <header class="sec-head">
+      <h2>Every drill, and where it lives</h2>
+      <p class="sec-stand">They sit inside the section they teach. This is the index.</p>
+    </header>
+    <div class="sec-body">
+      <div class="tw"><table>
+        <thead><tr><th>Drill</th><th>What it builds</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td><b>Name the shape</b></td><td>Seeing a page as six elements</td><td><a class="xref" href="#six-shapes">The page in six shapes</a></td></tr>
+          <tr><td><b>The camera test</b></td><td>Writing only what can be photographed</td><td><a class="xref" href="#six-shapes">The page in six shapes</a></td></tr>
+          <tr><td><b>The keys</b></td><td>Driving the page without looking</td><td><a class="xref" href="#pages">Writing the pages</a></td></tr>
+          <tr><td><b>Slug sprint</b></td><td>Scene headings, fast and correct</td><td><a class="xref" href="#pages">Writing the pages</a></td></tr>
+          <tr><td><b>Retype from memory</b></td><td>Format by muscle, then compare</td><td><button type="button" class="btn small" data-go="page:retype">▶ Start it</button></td></tr>
+          <tr><td><b>New heading or not</b></td><td>When a scene actually changes</td><td><a class="xref" href="#format">Format — the rulebook</a></td></tr>
+          <tr><td><b>V.O. or O.S.</b></td><td>The two that everyone confuses</td><td><a class="xref" href="#format">Format — the rulebook</a></td></tr>
+          <tr><td><b>Keep or cut the parenthetical</b></td><td>Trusting the actor</td><td><a class="xref" href="#format">Format — the rulebook</a></td></tr>
+          <tr><td><b>The logline doctor</b></td><td>One sentence that holds</td><td><a class="xref" href="#logline">The logline</a></td></tr>
+          <tr><td><b>Does the scene turn?</b></td><td>The one diagnostic that never fails</td><td><a class="xref" href="#shape">The shape</a></td></tr>
+          <tr><td><b>Enter late, exit early</b></td><td>Cutting the approach and the goodbye</td><td><a class="xref" href="#cards">Scene cards</a></td></tr>
+          <tr><td><b>Which subtext move</b></td><td>Nobody saying what they mean</td><td><a class="xref" href="#words">Dialogue, subtext, compression</a></td></tr>
+          <tr><td><b>Compression &amp; subtext rewrites</b></td><td>Cutting to the target, with a model</td><td><a class="xref" href="#words">Dialogue, subtext, compression</a></td></tr>
+          <tr><td><b>Which of the twelve</b></td><td>Spotting the mistakes a reader sees</td><td><a class="xref" href="#mistakes">The twelve mistakes</a></td></tr>
+          <tr><td><b>The scene spinner</b></td><td>A pattern and a constraint, then write it</td><td><a class="xref" href="#cards">Scene cards</a></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+</section>
+
+<footer class="doc-foot">
+  <p><strong>EasyScreenplay</strong> · one file, offline, yours. Everything you type stays in this
+  browser — <a class="xref" href="#keeping">keep a backup</a>.</p>
+</footer>
+
+</article>
+</main>
+</div>
+
+{{page}}
+
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+"use strict";
+{{js}}
+</script>
+</body>
+</html>

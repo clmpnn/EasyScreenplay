@@ -1,0 +1,33 @@
+<div id="pg" class="dock" hidden role="dialog" aria-label="The practice page">
+  <div class="pg-bar">
+    <select id="pgScript" aria-label="Script"></select>
+    <input id="pgTitle" type="text" aria-label="Script title" placeholder="Title">
+    <span class="pg-el" id="pgEl" title="The element you're in — check it without looking down">Action</span>
+    <div class="pg-tools">
+      <button type="button" data-act="undo" title="Undo (Ctrl+Z)" aria-label="Undo">↶</button>
+      <button type="button" data-act="redo" title="Redo (Ctrl+Y)" aria-label="Redo">↷</button>
+      <button type="button" data-act="doctor" aria-pressed="false" title="The format doctor — the twelve mistakes, on your own pages">Doctor<span id="pgDocN" hidden></span></button>
+      <button type="button" data-act="scenes" aria-pressed="false" title="Every scene heading, with its page">Scenes</button>
+      <button type="button" data-act="read" aria-pressed="false" title="Read aloud with a voice per character — Pass 5">Read aloud</button>
+      <button type="button" data-act="more" aria-pressed="false" title="Title page, export, import, new script, save a copy">Script ▾</button>
+      <button type="button" data-act="mode" title="Dock beside the guide, or fill the screen">⛶ Full</button>
+      <button type="button" data-act="close" class="pg-x" aria-label="Go to the guide" title="The guide, the story tools and the drills — your pages are saved (Esc)">☰ Guide</button>
+    </div>
+    <div class="pg-row2">
+      <div class="pg-els" id="pgEls" role="toolbar" aria-label="Elements"></div>
+      <div class="pg-views" role="group" aria-label="Cover tests">
+        <button type="button" class="chipbtn" data-act="cover-names" aria-pressed="false" title="The cover-the-names test — can you tell who is speaking?">Cover names</button>
+        <button type="button" class="chipbtn" data-act="cover-dia" aria-pressed="false" title="Cover the dialogue: is the conflict visible in behavior?">Cover dialogue</button>
+        <button type="button" class="chipbtn" data-act="cover-action" aria-pressed="false" title="Cover the action: does the scene track from dialogue alone?">Cover action</button>
+      </div>
+    </div>
+  </div>
+  <div class="pg-coach" id="pgCoach" hidden></div>
+  <div class="pg-main">
+    <div class="pg-scroll" id="pgScroll"><div class="pg-paper" id="pgPaper"></div></div>
+    <aside class="pg-side" id="pgSide" hidden></aside>
+  </div>
+  <div class="pg-hint" id="pgHint" hidden></div>
+  <div class="pg-status" id="pgStatus"><span id="pgStat"></span><span class="pg-keys">Enter · Tab · Ctrl/Alt+1–6 · Alt+J note · Ctrl+Z · Esc → guide</span><span id="pgSaved" class="pg-saved">saved on this device</span></div>
+</div>
+<div id="pgPrint" aria-hidden="true"></div>

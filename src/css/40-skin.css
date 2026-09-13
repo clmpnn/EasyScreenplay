@@ -1,0 +1,272 @@
+/* ═══════════════════════════════════════════════════════════════
+   v11.2 — THE QUIET PASS. Nothing is removed; everything that was
+   drawing attention to itself stops. The rules:
+
+     · white ground, no cards, no shadows in the flow of the page
+     · structure is a hairline and space, not a box
+     · depth only for what actually floats (drawer, toasts, page)
+     · one accent (blue) for links, focus and what is current
+     · gold reduced to the wordmark and the progress bar
+     · green / amber / red only where they carry meaning
+     · square corners, one button, fields that are ruled lines
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── ground ──────────────────────────────────────────────── */
+:root{
+  --paper:#FFFFFF; --surface:#FFFFFF; --surface-2:#F4F6F8;
+  --rule:#D8DCE2; --rule-soft:#EBEDF1;
+  /* the quiet grey carries small metadata — labels, dates, counts — so it
+     has to clear 4.5:1 on the page and on the one tint. #7C8593 was 3.7. */
+  --ink-3:#667080;
+  --shadow:none;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1116; --surface:#0E1116; --surface-2:#171B21;
+    --rule:#282E37; --rule-soft:#1D222A;
+    --ink-3:#828B99;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1116; --surface:#0E1116; --surface-2:#171B21;
+  --rule:#282E37; --rule-soft:#1D222A;
+  --ink-3:#828B99;
+  --shadow:none;
+}
+
+/* ── the rail ────────────────────────────────────────────── */
+.rail{background:var(--paper)}
+.srch input{background:none; border:0; border-bottom:1px solid var(--rule); padding:7px 10px 7px 24px}
+.srch input:focus{outline:none; border-bottom-color:var(--accent)}
+.srch svg{left:2px}
+.chips{gap:4px 14px}
+.chip{border:0; border-bottom:1px solid transparent; padding:2px 0; color:var(--ink-3)}
+.chip:hover{color:var(--ink); border-bottom-color:var(--rule)}
+.chip[aria-pressed="true"]{background:none; color:var(--ink); border-bottom-color:var(--ink); font-weight:600}
+.toc a.l1::before{display:none}
+.toc a.l1{margin-top:22px; padding-top:13px; border-top:1px solid var(--rule-soft)}
+.toc a.l1:first-child{margin-top:0; border-top:0; padding-top:4px}
+.toc a:hover{background:none; color:var(--ink)}
+.toc a.active{background:none; color:var(--accent); font-weight:600}
+.toc a.lstep.active i, .toc a.lstep.done i{color:var(--ink-3)}
+.rail-acts .btn{flex:1; justify-content:center}
+.totop{border-radius:0; box-shadow:none; background:var(--paper); width:34px; height:34px}
+
+/* ── the page itself ─────────────────────────────────────── */
+.runhead .sub{letter-spacing:.08em}
+.runline{background:none; border:0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:14px 0}
+.part-head{border-top:1px solid var(--ink); padding-top:28px}
+.part-kick{color:var(--ink-3); letter-spacing:.1em}
+.doc h1{border-top:1px solid var(--ink); padding-top:24px}
+.doc h1:first-child, .runhead h1, .doc .part-head h1{border-top:0; padding-top:0}
+.stepnum-inline{background:none; width:auto; height:auto; color:var(--accent); font-weight:600; vertical-align:baseline}
+
+.doc blockquote{border-left:1px solid var(--rule); padding-left:18px}
+.doc blockquote.callout{background:none; border:0; border-left:1px solid var(--ink); padding:0 0 0 18px}
+.doc pre{background:none; border:0; border-left:1px solid var(--rule); border-radius:0; padding:2px 0 2px 18px}
+.doc pre.script{border-left:1px solid var(--rule)}
+
+/* tables: a rule under the heading, a hairline between rows, nothing else */
+.doc .tw{background:none; border:0}
+.doc thead th{background:none; border-bottom:1px solid var(--ink); padding:0 14px 8px 0; letter-spacing:.06em}
+.doc tbody td{padding:10px 14px 10px 0; border-bottom:1px solid var(--rule-soft)}
+.doc tbody tr:hover{background:var(--surface-2)}
+.doc th:last-child, .doc td:last-child{padding-right:0}
+
+/* folds and keys: a line above, a triangle, the text */
+details.fold, details.key{
+  background:none; border:0; border-top:1px solid var(--rule); border-radius:0;
+  padding-left:0; padding-right:0;
+}
+details.fold > summary, details.key > summary{margin-inline:0; padding:12px 0}
+details.fold > summary:hover{background:none; color:var(--ink)}
+details.fold > summary::before{color:var(--ink-3)}
+details.fold[open] > summary{border-bottom:0; margin-bottom:14px}
+details.key > summary::before{color:var(--ink-3)}
+details.fold > *:last-child, details.key > p:last-of-type, details.key > ol:last-of-type{margin-bottom:20px}
+.foldnote{letter-spacing:.07em}
+
+/* gate, hud, date-setter: a line, a quiet label */
+.gate{background:none; border:0; border-top:1px solid var(--ink); padding:18px 0 0}
+
+.tool{margin:22px 0 30px}
+.wb-card, .vault-list, .cardlist, .recall, .launch, .drill, .exam-wrap{
+  background:none; border:0; box-shadow:none; padding:0;
+}
+.wb-card{border-top:1px solid var(--rule); padding-top:16px; margin:0 0 22px}
+.wb-k{color:var(--ink-3); letter-spacing:.09em}
+.wb-spark{background:none; border-left:1px solid var(--rule); padding:0 0 0 14px; margin-top:14px}
+.idea{background:none; border:0; border-bottom:1px solid var(--rule-soft); border-radius:0; padding:12px 0}
+.idea.on{box-shadow:none; border-left:2px solid var(--ink); padding-left:12px}
+.idea .tagon{background:none; color:var(--accent); padding:0; letter-spacing:.08em}
+.qv{background:none; border:0; border-left:1px solid var(--rule); padding:2px 0 2px 14px}
+.lg-preview{background:none; border-left:1px solid var(--rule); padding:2px 0 2px 14px}
+.lg-preview.reading{background:none; border-left-color:var(--gold)}
+.inline-confirm{background:none; border-left:2px solid var(--warn); padding:2px 0 2px 10px; margin-left:10px}
+.stall-panel:not(:empty){background:none; border-left:1px solid var(--rule); padding:2px 0 2px 14px}
+ol.scene-lines{background:none; padding:2px 0 2px 2.4em}
+.meter{background:var(--rule-soft); border-radius:0}
+.meter i{background:var(--ink)}
+.scard, .pcard{background:none; border:0; border-top:1px solid var(--rule-soft); padding:12px 0 0}
+.scard.flat{border-top-color:var(--warn)}
+.charge-strip .ch{background:none; border:0; border-bottom:1px solid var(--rule); padding:2px 0; margin-right:10px}
+
+/* the desk: four columns, a line over each, no card */
+.desk-grid{gap:22px 36px}
+
+/* drills: the same line, the same label */
+.drill{border-top:1px solid var(--rule); padding:16px 0 0; margin:0 0 22px}
+.dr-k{color:var(--ink-3); letter-spacing:.09em}
+pre.dr-line{background:none; border:0; border-left:1px solid var(--rule); padding:2px 0 2px 14px}
+.opt.right{background:none; border-color:var(--ok); color:var(--ok)}
+.opt.wrong{background:none; border-color:var(--bad); color:var(--bad)}
+.dr-fix{background:none; padding:0; border-left:1px solid var(--ok); padding-left:12px}
+.kstage{background:none; border:1px dashed var(--rule); border-radius:0}
+.kstage:focus{border-style:dashed; border-color:var(--accent)}
+
+/* ── controls ────────────────────────────────────────────── */
+.btn, .opt, .chipbtn, .rail-foot button, .stepdone .sd-btn, .dateset button{
+  border-radius:0; background:none; font-weight:500;
+}
+.btn{border:1px solid var(--rule); padding:7px 12px}
+.btn:hover{border-color:var(--ink); background:none}
+.btn.primary, .doc a.btn.primary{background:var(--ink); border-color:var(--ink); color:var(--paper)}
+.btn.primary:hover{background:var(--ink-2); border-color:var(--ink-2)}
+:root[data-theme="dark"] .btn.primary, .doc a.btn.primary{color:var(--paper)}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .btn.primary{color:var(--paper)} }
+.btn.hot{background:none; border-color:var(--ink)}
+.btn.on{background:none; border-color:var(--ink); color:var(--ink); font-weight:600}
+.btn.danger{border-color:var(--rule); color:var(--bad)}
+.btn.danger:hover{background:none; border-color:var(--bad)}
+.chipbtn{border:1px solid var(--rule); color:var(--ink-2)}
+.chipbtn.on{background:none; border-color:var(--ink); color:var(--ink); font-weight:600}
+button.x:hover{background:none; color:var(--bad)}
+
+/* fields are ruled lines, not boxes */
+.tool input[type=text], .tool input[type=number], .tool textarea, .tool select,
+.desk input[type=text], .desk input[type=number], .desk textarea, .desk select,
+.logform input, .logform select, .qv input, .qv textarea{
+  background:none; border:0; border-bottom:1px solid var(--rule); border-radius:0; padding:6px 0;
+}
+.tool input:focus, .tool textarea:focus, .tool select:focus, .desk input:focus, .logform input:focus{
+  background:none; box-shadow:none; border-bottom-color:var(--accent);
+}
+.tool input::placeholder, .tool textarea::placeholder{opacity:.7}
+.tool input[type=checkbox], .wb-checks input, .stepdone input, .gate-tick input,
+.dm-tick input, .logform input[type=checkbox], .rc-opts input, .task input{
+  border:1px solid var(--ink-3); border-radius:0; background:none;
+}
+.tool input[type=checkbox]:checked, .wb-checks input:checked, .gate-tick input:checked,
+.dm-tick input:checked, .logform input[type=checkbox]:checked, .rc-opts input:checked, .task input:checked{
+  background:var(--ink); border-color:var(--ink);
+}
+.tool input[type=checkbox]:checked::after, .wb-checks input:checked::after, .gate-tick input:checked::after,
+.dm-tick input:checked::after, .logform input[type=checkbox]:checked::after, .rc-opts input:checked::after,
+.task input:checked::after{color:var(--paper)}
+.task label:hover{background:none; color:var(--ink)}
+
+/* ── the practice page: the one place paper still looks like paper ── */
+.pg-bar{background:var(--paper)}
+.pg-scroll{background:var(--surface-2)}
+.pg-paper{border:1px solid var(--rule); border-radius:0; box-shadow:none}
+.pg-side{background:var(--paper)}
+#pg{box-shadow:-14px 0 40px -34px rgba(0,0,0,.5)}
+
+/* ── things that float keep their depth ──────────────────── */
+@media (max-width:1000px){ .rail{box-shadow:0 0 40px rgba(0,0,0,.24)} }
+
+/* ── the rest of the tints ───────────────────────────────── */
+details.fold[open]{border-bottom:1px solid var(--rule-soft); padding-bottom:6px}
+.launch{border-top:1px solid var(--rule); padding-top:16px; margin:0 0 16px}
+.ledger .lrow.hot{background:var(--surface-2)}
+.chipbtn[aria-pressed="true"], .pg-tools button[aria-pressed="true"],
+.ps-filter button[aria-pressed="true"], .rail-foot .ffocus[aria-pressed="true"]{
+  background:none; border-color:var(--ink); color:var(--ink); font-weight:600;
+}
+
+/* the practice page chrome, and the paper's own highlights, which must
+   stay light because the paper is white in both themes */
+.pg-el{background:none; color:var(--accent); text-align:left; padding:5px 0}
+.pg-coach{background:var(--surface-2); border-bottom:1px solid var(--rule)}
+.b-noteedit input{background:#F4F6F8; border:1px solid #D8DCE2; color:#141414}
+.pg-paper .b.hl{background:#F5EAD1; box-shadow:0 0 0 4px #F5EAD1}
+.pg-paper .b.reading{background:#DCE8F3; box-shadow:0 0 0 4px #DCE8F3}
+
+/* fields grow with what you type instead of showing a grab handle */
+.tool textarea, .desk textarea, .qv textarea{field-sizing:content; min-height:2.8em}
+.tool textarea::-webkit-resizer, .desk textarea::-webkit-resizer, .qv textarea::-webkit-resizer{display:none}
+
+/* with the boxes gone, every hairline should run the same length: the
+   column. What keeps writing readable is the measure on the field, not
+   a box around it. */
+:root{--box:100%}
+.doc .tool .wb-row > input[type=text]{max-width:min(100%, 44ch)}
+
+/* the opposition card is told apart by where it sits, not by being red */
+.pcard.opp .pcard-k{color:var(--ink)}
+
+/* a confirmation is not an alarm; only a failure keeps its colour */
+.toast.ok{background:var(--ink); color:var(--paper)}
+
+/* ═══════════════════════════════════════════════════════════════
+   v11.3 — THE WARM PASS. Same layout, same quiet; different light.
+   Paper is cream rather than clinical white, the ink is warm
+   brown-black, the hairlines are the colour of a pencil line, and
+   the dark theme is lamplight rather than a cold screen. Two
+   colours carry meaning: blue is a link and where you are, amber
+   is whatever you are meant to do next.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root{
+  --paper:#FAF5EC; --surface:#FAF5EC; --surface-2:#F2EADC;
+  --ink:#2B2621; --ink-2:#57504A; --ink-3:#6A6157;
+  --rule:#DACFBD; --rule-soft:#EBE3D4;
+  --accent:#2F5A80; --accent-ink:#24486A; --accent-soft:#E6EDF4;
+  --gold:#A9781E; --gold-ink:#8A6516; --gold-soft:#F5E8CC;
+  --ok:#2F6A44; --ok-bg:#E4EFE4;
+  --warn:#8F6316; --warn-bg:#F7EDD8;
+  --unk:#6E665C; --unk-bg:#EDE9E2;
+  --bad:#A34434; --bad-bg:#F7E4DF;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#15120E; --surface:#15120E; --surface-2:#1F1B16;
+    --ink:#EFE8DD; --ink-2:#B4A99C; --ink-3:#958A7C;
+    --rule:#332C25; --rule-soft:#251F1A;
+    --accent:#8FB6DC; --accent-ink:#AECAE6; --accent-soft:#22303E;
+    --gold:#E0B063; --gold-ink:#E0B063; --gold-soft:#3A2C12;
+    --ok:#7FC694; --ok-bg:#18291C;
+    --warn:#E0B063; --warn-bg:#2E2413;
+    --unk:#9C9183; --unk-bg:#221E19;
+    --bad:#E98B78; --bad-bg:#2E1B18;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15120E; --surface:#15120E; --surface-2:#1F1B16;
+  --ink:#EFE8DD; --ink-2:#B4A99C; --ink-3:#958A7C;
+  --rule:#332C25; --rule-soft:#251F1A;
+  --accent:#8FB6DC; --accent-ink:#AECAE6; --accent-soft:#22303E;
+  --gold:#E0B063; --gold-ink:#E0B063; --gold-soft:#3A2C12;
+  --ok:#7FC694; --ok-bg:#18291C;
+  --warn:#E0B063; --warn-bg:#2E2413;
+  --unk:#9C9183; --unk-bg:#221E19;
+  --bad:#E98B78; --bad-bg:#2E1B18;
+}
+
+/* amber is "next": the do-now rule, today, the day you are on */
+.donow{border-left-color:var(--gold)}
+
+/* the practice page keeps real paper — white, on a warm desk */
+.pg-paper{background:#FFFDF9}
+.pg-scroll{background:var(--surface-2)}
+
+/* print stays black on white: cream costs ink and photocopies badly */
+@media print{
+  :root, :root[data-theme="dark"]{
+    --paper:#FFFFFF; --surface:#FFFFFF; --surface-2:#F4F2EE;
+    --ink:#15120E; --ink-2:#3E3832; --ink-3:#5E564C;
+    --rule:#C7C0B4; --rule-soft:#DED8CE;
+  }
+}
+@media print{.exam-static{display:block}}

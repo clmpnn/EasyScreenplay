@@ -1,0 +1,12 @@
+# build scratch and local notes
+*.png
+*.pdf
+*.log
+__pycache__/
+.venv/
+.DS_Store
+Thumbs.db
+
+# the built file IS committed — it is what you open.
+# Comment the next line out if you would rather build it yourself.
+#index.html

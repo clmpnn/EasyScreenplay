@@ -1,0 +1,51 @@
+/* ═══════════════════════════════════════════════════════════════
+   EasyScreenplay — the shell the guide sits in. Sections are called
+   sections, not steps; the hero puts the page one press away.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* sections (what used to be numbered steps) */
+.sec{margin:52px 0 0; padding:0; max-width:none; scroll-margin-top:24px}
+.sec-head{padding-bottom:14px; border-bottom:1px solid var(--rule); margin-bottom:22px}
+.doc .sec-head h2{
+  font-family:var(--f-disp); font-weight:700; font-size:clamp(21px,2.5vw,27px);
+  line-height:1.18; letter-spacing:-.015em; margin:0; max-width:26ch;
+}
+.sec-meta{
+  font-family:var(--f-mono); font-size:11px; letter-spacing:.04em; color:var(--ink-3);
+  margin:8px 0 0;
+}
+.sec-stand{font-size:16px; color:var(--ink-2); margin:8px 0 0; max-width:var(--measure)}
+.sec-body{max-width:none}
+.sec-lead{max-width:var(--measure)}
+.sec-lead > p:first-child{margin-top:0}
+.sec-body > p:first-child{margin-top:0}
+
+/* the hero */
+.hero-act{display:flex; flex-wrap:wrap; gap:10px; margin:22px 0 0}
+.btn.big{font-size:15px; padding:11px 18px}
+.doc-foot{
+  margin:64px 0 0; padding-top:18px; border-top:1px solid var(--rule);
+  font-size:14px; color:var(--ink-3);
+}
+
+/* "try it" — the one place the guide asks for a key press */
+.tryit{
+  margin:22px 0; padding:2px 0 2px 16px; border-left:2px solid var(--gold);
+  max-width:min(100%, 84ch);
+}
+.tryit > b{
+  display:block; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gold-ink); font-weight:500; margin-bottom:6px;
+}
+.tryit p{margin:0 0 10px; max-width:var(--measure)}
+.tryit-act{display:flex; flex-wrap:wrap; gap:8px}
+
+/* the rail's one action */
+.rail-acts{display:flex; gap:6px; margin:14px 22px 2px}
+.rail-acts .btn{flex:1; justify-content:center; font-size:14px; padding:9px 10px}
+
+@media print{
+  .hero-act, .tryit-act, .rail-acts{display:none}
+  .sec{break-inside:auto}
+  .sec-head{break-after:avoid}
+}

@@ -1,0 +1,127 @@
+/* ═══════════════════════════════════════════════════════════════
+   v10 — THE RUN. One ordered sequence replaces six zones.
+   Parts are chapters; steps are the things you do; folds are depth
+   you open only when their line applies to you.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── the run header ─────────────────────────────────────── */
+.runhead{margin:26px 0 0; max-width:none}
+.runhead h1{
+  font-family:var(--f-disp); font-weight:700; font-size:clamp(32px,5.4vw,54px);
+  line-height:1.02; letter-spacing:-.028em; margin:0; border:none; padding:0;
+  max-width:16ch; text-wrap:balance;
+}
+.runhead h1 em{font-style:normal; color:var(--gold)}
+.runhead .sub{
+  font-family:var(--f-mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); margin-top:14px;
+}
+.runhead .stand{
+  font-size:19px; line-height:1.55; color:var(--ink-2); margin-top:20px; max-width:56ch;
+}
+.runhead .stand strong{color:var(--ink)}
+.runline{
+  margin:26px 0 0; padding:16px 18px; border-radius:0;
+  background:var(--surface); border:1px solid var(--rule); box-shadow:var(--shadow);
+  max-width:none;
+}
+.runline b{
+  display:block; font-family:var(--f-mono); font-size:10px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin-bottom:9px; font-weight:500;
+}
+
+/* ── part ───────────────────────────────────────────────── */
+.part{margin:0; padding:0}
+.part-head{
+  margin:96px 0 0; padding:30px 0 0; border-top:3px solid var(--gold);
+  max-width:none;
+}
+.part:first-of-type .part-head{margin-top:52px}
+.part-kick{
+  font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--gold); display:flex; align-items:baseline; gap:12px; margin-bottom:12px;
+}
+.part-kick i{font-style:normal; color:var(--ink-3)}
+.doc .part-head h1{
+  margin:0; padding:0; border:none; font-size:clamp(27px,4vw,40px);
+  letter-spacing:-.022em; line-height:1.08; max-width:22ch;
+}
+.part-lead{margin-top:18px; max-width:68ch}
+.part-lead>p{font-size:17.5px; line-height:1.6; color:var(--ink-2)}
+.part-lead>p strong{color:var(--ink)}
+.part-lead>*:last-child{margin-bottom:0}
+
+/* the inline step chip used in prose */
+.stepnum-inline{
+  display:inline-grid; place-items:center; width:22px; height:22px; border-radius:0;
+  background:var(--accent-soft); color:var(--accent-ink); font-family:var(--f-mono);
+  font-size:11px; font-weight:500; vertical-align:-5px;
+}
+
+/* ── folds ──────────────────────────────────────────────── */
+details.fold{
+  margin:22px 0; border:1px solid var(--rule); border-left:3px solid var(--accent);
+  border-radius:0; background:var(--surface); max-width:none;
+}
+details.fold>summary{
+  cursor:pointer; padding:13px 18px; list-style:none; color:var(--ink-2);
+  font-size:14.5px; line-height:1.45; display:flex; gap:10px; align-items:baseline;
+}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::before{
+  content:"▸"; color:var(--accent); flex:none; font-size:12px; transform:translateY(-1px);
+}
+details.fold[open]>summary::before{content:"▾"}
+details.fold>summary:hover{color:var(--ink); background:var(--surface-2)}
+details.fold[open]>summary{border-bottom:1px solid var(--rule-soft); margin-bottom:16px}
+details.fold>*:not(summary){margin-left:20px; margin-right:20px}
+details.fold>*:last-child{margin-bottom:16px}
+details.fold .doc-h, details.fold>h3:first-of-type{margin-top:0}
+.foldnote{
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--ink-3); margin-left:auto; flex:none; padding-left:12px;
+}
+button.linkish{
+  font:inherit; color:var(--accent); cursor:pointer; padding:0; border:none;
+  background:none; text-decoration:underline; text-underline-offset:2px;
+}
+.doc thead th:nth-child(2){min-width:7.5em}
+
+/* ── rail: step-numbered contents ───────────────────────── */
+.toc a.lstep{
+  display:flex; gap:9px; align-items:baseline; font-size:13.5px; margin-left:2px;
+}
+/* the search filter must beat .lstep's display:flex, which comes later in the sheet */
+.toc a.hide{display:none}
+.toc a.l3{display:none}
+.toc a.l3.show{display:block}
+.toc a.lstep i{
+  font-style:normal; font-family:var(--f-mono); font-size:11px; color:var(--ink-3);
+  min-width:1.9em; text-align:right; flex:none; font-variant-numeric:tabular-nums;
+}
+.toc a.lstep.active i{color:var(--accent-ink)}
+.toc a.lstep span{
+  min-width:0; overflow:hidden; text-overflow:ellipsis;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+}
+
+@media (max-width:1000px){
+  .step-head{gap:12px}
+  .stepnum{width:38px; height:38px; font-size:17px}
+}
+
+@media print{
+  .doc>*{max-width:78ch}
+  .step-lead,.part-lead,.gate p{max-width:78ch}
+  .part-head{break-before:page; margin-top:0}
+  .part:first-of-type .part-head{break-before:avoid}
+  .step{break-inside:auto}
+  .step-head{break-after:avoid}
+  .gate{break-inside:avoid; background:#F2F7F4}
+  details.fold{border:1px solid #C9CDD3}
+  details.fold>summary{color:#3E454F}
+  details.fold:not([open])>*:not(summary){display:none}
+  .dateset,.clock-edit{display:none}
+  .runhead h1{font-size:30pt}
+  .hudcard{break-inside:avoid; border:1px solid #8A6516}
+}
