@@ -16,13 +16,6 @@ EasyScreenplay/
 └── docs/             ← the keyboard map
 ```
 
-## Making it a repository
-
-The folder ships without git metadata. Run **`init-repo.cmd`** once (or `./init-repo.sh`
-on mac/Linux) and it becomes a git repo on `main` with one initial commit, under your own
-git identity. After that it is an ordinary repository: commit when you change something,
-`git log` to see what you changed, `git checkout` to go back.
-
 ## What it does
 
 **Write.** A real screenplay page. You press <kbd>Enter</kbd> and <kbd>Tab</kbd>; it decides
