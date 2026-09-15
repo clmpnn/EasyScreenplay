@@ -18,8 +18,6 @@
 
 **EasyScreenplay** is a free, browser-based tool for writing screenplays with proper industry formatting — scene headings, action lines, character names, dialogue, and transitions — applied automatically as you type.
 
-> ✏️ *Note: fill in your actual feature list below — this section is a starting template.*
-
 ## ✨ Features
 
 - 🎞️ Automatic screenplay formatting (sluglines, action, dialogue, transitions)
